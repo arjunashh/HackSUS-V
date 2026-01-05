@@ -59,13 +59,12 @@ const HeroSection = () => {
       <div className="absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-primary/30" />
 
       <div className="container relative z-10 px-6 text-center">
-        {/* Main title with layered glitch effect */}
+        {/* Main title */}
         <h1
-          className="glitch-text font-tanNimbus text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-foreground leading-none tracking-wider mb-2 animate-fade-in mix-blend-screen select-none"
-          data-text="HACKS'US"
+          className="font-tanNimbus text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-foreground leading-none tracking-wider mb-2 animate-fade-in select-none"
           style={{ animationDelay: "0.4s" }}
         >
-          HACK<span className="accent">S'US</span>
+          HACK<span className="text-primary">S'US</span>
         </h1>
 
         {/* Edition image */}
@@ -73,7 +72,7 @@ const HeroSection = () => {
           <img
             src="/images/EditionV-Ribbon.png"
             alt="Edition V"
-            className="mx-auto w-56 sm:w-64 md:w-72 lg:w-80"
+            className="mx-auto w-84 sm:w-80 md:w-96 lg:w-100"
           />
         </div>
 
