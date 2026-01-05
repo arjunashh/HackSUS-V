@@ -6,8 +6,7 @@ const HeroSection = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden scanlines pt-16 pb-30">
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent" />
-      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-30" />
-      
+
       {/* Floating particles */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(20)].map((_, i) => (
@@ -63,12 +62,13 @@ const HeroSection = () => {
           style={{ animationDelay: "0.8s" }}
         >
           MARCH 6-7, 2026
+          MARCH 6-8, 2026
         </p>
 
         {/* CTA Button */}
         <div className="animate-fade-in" style={{ animationDelay: "1s" }}>
           <Button variant="hero" size="xl">
-            <span className="relative z-10">CLAIM YOUR SPOT</span>
+            <span className="relative z-10">Pre-Register Now</span>
           </Button>
         </div>
 
@@ -78,6 +78,7 @@ const HeroSection = () => {
           style={{ animationDelay: "1.2s" }}
         >
           {[
+            { value: "42", label: "HOURS" },
             { value: "42", label: "HOURS" },
             { value: "500+", label: "HACKERS" },
             { value: "₹5 Lakhs+", label: "IN PRIZES" },
@@ -90,14 +91,14 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator
       <a
         href="#about"
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce"
         aria-label="Scroll to content"
       >
         <ChevronDown size={32} />
-      </a>
+      </a> */}
     </section>
   );
 };
