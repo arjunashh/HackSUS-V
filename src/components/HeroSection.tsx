@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden scanlines">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden scanlines pt-16 pb-30">
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent" />
       <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-30" />
@@ -31,28 +31,30 @@ const HeroSection = () => {
       <div className="absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-primary/30" />
 
       <div className="container relative z-10 px-6 text-center">
-        {/* Edition tag */}
-        <div className="inline-block mb-6 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-          <span className="font-mono text-sm text-primary tracking-[0.3em] border border-primary/50 px-4 py-1">
-            EDITION V
-          </span>
-        </div>
-
-        {/* Main title with glitch effect */}
+        {/* Main title with layered glitch effect */}
         <h1
-          className="glitch font-display text-7xl md:text-9xl lg:text-[12rem] text-foreground leading-none tracking-wider mb-4 animate-fade-in"
-          data-text="HACK S'US"
+          className="glitch-text font-tanNimbus text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-foreground leading-none tracking-wider mb-2 animate-fade-in mix-blend-screen select-none"
+          data-text="HACKS'US"
           style={{ animationDelay: "0.4s" }}
         >
-          HACK<span className="text-primary">S'US</span>
+          HACK<span className="accent">S'US</span>
         </h1>
+
+        {/* Edition image */}
+        <div className="relative mb-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          <img
+            src="/images/EditionV-Ribbon.png"
+            alt="Edition V"
+            className="mx-auto w-48 sm:w-56 md:w-64 lg:w-72"
+          />
+        </div>
 
         {/* Tagline */}
         <p
           className="font-body text-xl md:text-2xl text-muted-foreground mb-2 animate-fade-in"
           style={{ animationDelay: "0.6s" }}
         >
-          Where Code Meets Chaos
+          India's First Multi Tarck AI-Workflow Hackathon
         </p>
 
         {/* Date */}
@@ -60,7 +62,7 @@ const HeroSection = () => {
           className="font-mono text-lg text-primary mb-12 animate-fade-in"
           style={{ animationDelay: "0.8s" }}
         >
-          MARCH 15-17, 2025
+          MARCH 6-7, 2026
         </p>
 
         {/* CTA Button */}
@@ -76,9 +78,9 @@ const HeroSection = () => {
           style={{ animationDelay: "1.2s" }}
         >
           {[
-            { value: "36", label: "HOURS" },
+            { value: "42", label: "HOURS" },
             { value: "500+", label: "HACKERS" },
-            { value: "$50K", label: "IN PRIZES" },
+            { value: "₹5 Lakhs+", label: "IN PRIZES" },
           ].map((stat, i) => (
             <div key={i} className="text-center">
               <div className="font-display text-4xl md:text-5xl text-primary">{stat.value}</div>
