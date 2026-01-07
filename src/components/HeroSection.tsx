@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Info, FileText, Layers, Mail } from "lucide-react";
+import { ChevronDown, Info, FileText, Layers, Mail, MapPin, Calendar } from "lucide-react";
 import { FloatingDock } from "@/components/ui/floating-dock";
 
 const HeroSection = () => {
@@ -61,14 +61,14 @@ const HeroSection = () => {
       <div className="container relative z-10 px-6 text-center">
         {/* Main title */}
         <h1
-          className="font-tanNimbus text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-foreground leading-none tracking-wider mb-2 animate-fade-in select-none"
+          className="font-tanNimbus text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-foreground leading-none tracking-wider mb-0 animate-fade-in select-none"
           style={{ animationDelay: "0.4s" }}
         >
           HACK<span className="text-primary">S'US</span>
         </h1>
 
         {/* Edition image */}
-        <div className="relative mb-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+        <div className="relative mb-4 -mt-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
           <img
             src="/images/EditionV-Ribbon.png"
             alt="Edition V"
@@ -78,19 +78,26 @@ const HeroSection = () => {
 
         {/* Tagline */}
         <p
-          className="font-body text-xl md:text-2xl text-muted-foreground mb-2 animate-fade-in"
+          className="font-mono text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in"
           style={{ animationDelay: "0.6s" }}
         >
           India's First AI-Workflow Hackathon
         </p>
 
-        {/* Date */}
-        <p
-          className="font-mono text-lg text-primary mb-12 animate-fade-in"
-          style={{ animationDelay: "0.8s" }}
-        >
-          MARCH 6-8, 2026
-        </p>
+        {/* Date and Location */}
+        <div className="grid grid-cols-2 gap-6 max-w-3xl mx-auto mb-12 animate-fade-in" style={{ animationDelay: "0.8s" }}>
+          {/* Date */}
+          <div className="flex items-center justify-center gap-2 font-mono text-lg text-primary flex-wrap">
+            <Calendar size={20} className="flex-shrink-0" />
+            <p>MARCH 6-8, 2026</p>
+          </div>
+
+          {/* Location */}
+          <div className="flex items-center justify-start gap-4 font-mono text-lg text-primary">
+            <MapPin size={20} className="flex-shrink-0" />
+            <p className="text-left">Rajagiri School of Engineering & Techonology, Kochi</p>
+          </div>
+        </div>
 
         {/* CTA Button */}
         <div className="animate-fade-in" style={{ animationDelay: "1s" }}>
