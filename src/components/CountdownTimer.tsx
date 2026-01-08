@@ -77,7 +77,7 @@ const CountdownTimer = () => {
         {/* CTA */}
         <div className="mt-8">
           <a
-            href="#"
+            href="https://app.makemypass.com/event/hacksus-pre-event"
             className="inline-block bg-gradient-to-r from-primary to-accent text-primary-foreground font-display text-xl tracking-widest uppercase px-12 py-5 hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_hsl(var(--electric-red)/0.5)] hover:shadow-[0_0_50px_hsl(var(--electric-red)/0.7)] rounded-2xl"
           >
             PRE-REGISTER NOW
