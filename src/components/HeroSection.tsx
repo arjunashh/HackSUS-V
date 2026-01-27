@@ -52,12 +52,6 @@ const HeroSection = () => {
         ))}
       </div>
 
-      {/* Geometric corner decorations */}
-      <div className="absolute top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-primary/30" />
-      <div className="absolute top-0 right-0 w-32 h-32 border-r-2 border-t-2 border-primary/30" />
-      <div className="absolute bottom-0 left-0 w-32 h-32 border-l-2 border-b-2 border-primary/30" />
-      <div className="absolute bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-primary/30" />
-
       <div className="container relative z-10 px-6 text-center">
         {/* Main title */}
         <h1
@@ -85,10 +79,7 @@ const HeroSection = () => {
         </p>
 
         {/* Date and Location */}
-        <div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-12 animate-fade-in" 
-          style={{ animationDelay: "0.8s" }}
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-12 animate-fade-in" style={{ animationDelay: "0.8s" }}>
           {/* Date */}
           <div className="flex items-center justify-center md:justify-end gap-2 font-mono text-lg text-primary flex-wrap">
             <Calendar size={20} className="flex-shrink-0" />
@@ -98,21 +89,14 @@ const HeroSection = () => {
           {/* Location */}
           <div className="flex items-center justify-center md:justify-start gap-4 font-mono text-lg text-primary">
             <MapPin size={20} className="flex-shrink-0" />
-            <p className="text-center md:text-left">
-              Rajagiri School of Engineering & Techonology, Kochi
-            </p>
+            <p className="text-left">Rajagiri School of Engineering & Techonology (Autonomous), Kochi</p>
           </div>
         </div>
 
         {/* CTA Button */}
         <div className="animate-fade-in" style={{ animationDelay: "1s" }}>
           <Button variant="hero" size="xl">
-            <a
-              href="https://app.makemypass.com/event/hacksus-pre-event"
-              className="inline-block bg-gradient-to-r from-primary to-accent text-primary-foreground font-display text-xl tracking-widest uppercase px-12 py-5 hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_hsl(var(--electric-red)/0.5)] hover:shadow-[0_0_50px_hsl(var(--electric-red)/0.7)] rounded-2xl"
-            >
-            <span className="relative z-10">Pre-Register Now</span>
-            </a>
+            <a href="https://app.makemypass.com/event/hacksus-pre-event" target="_blank" rel="noopener noreferrer" className="relative z-10">Pre-Register Now</a>
           </Button>
         </div>
 

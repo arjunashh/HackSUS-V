@@ -11,23 +11,23 @@ const Footer = () => {
   return (
     <footer id="footer" className="relative py-16 border-t border-border">
       <div className="container px-6">
-        <div className="grid md:grid-cols-3 gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:items-center">
           {/* Contact Info */}
-          <div className="space-y-6">
+          <div className="space-y-6 text-center md:text-left">
             <div>
               <p className="font-mono text-foreground mb-1">Abraham Manoj</p>
               <p className="font-mono text-sm text-muted-foreground">Phone: +91 70120 79459</p>
               <p className="font-mono text-sm text-muted-foreground">Email: abrahammadamana@gmail.com</p>
             </div>
             <div>
-              <p className="font-mono text-foreground mb-1">Fathima Moonam Kandathil</p>
-              <p className="font-mono text-sm text-muted-foreground">Phone: +91 80895 98331</p>
-              <p className="font-mono text-sm text-muted-foreground">Email: fathimarasheed004@gmail.com</p>
+              <p className="font-mono text-foreground mb-1">Aaron Thomas</p>
+              <p className="font-mono text-sm text-muted-foreground">Phone: +91 84480 59331</p>
+              <p className="font-mono text-sm text-muted-foreground">Email: aaronthomas25700@gmail.com</p>
             </div>
           </div>
 
-          <div className="flex justify-center items-center gap-6">
-            <img className="w-40" src="/images/rset_iic.PNG" alt="RSET IIC" />
+          <div className="flex flex-wrap [@media(min-width:1115px)]:flex-nowrap justify-center items-center gap-6 max-w-[340px] [@media(min-width:1115px)]:max-w-none mx-auto">
+            <img className="w-40" src="/images/iic_logo.png" alt="RSET IIC" />
             <img className="w-40" src="/images/silver_jubilee_rset.png" alt="Silver Jubilee RSET" />
             <img className="w-40" src="/images/rset_iedc.PNG" alt="RSET IEDC" />
           </div>
@@ -42,7 +42,7 @@ const Footer = () => {
  |_______|`}
           </div> */}
 
-          <div className="flex flex-col items-end gap-4">
+          <div className="flex flex-col items-center md:items-end gap-4">
             <div className="font-mono">Follow Us</div>
             {/* Social links */}
             <div className="flex gap-4">
