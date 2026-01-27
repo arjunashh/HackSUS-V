@@ -9,7 +9,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer id="footer" className="relative py-16 border-t border-border">
+    <footer id="footer" className="relative py-16 border-t border-border bg-[#000000]">
       <div className="container px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:items-center">
           {/* Contact Info */}

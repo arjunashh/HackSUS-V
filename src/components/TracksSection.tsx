@@ -52,7 +52,7 @@ const TracksSection = () => {
         </div>
 
         {/* Tracks grid */}
-        <div className="grid grid-cols-1 [@media(min-width:1016px)]:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 [@media(min-width:1016px)]:grid-cols-3 lg:grid-cols-3 gap-6">
           {tracks.map((track, i) => (
             <div
               key={i}
