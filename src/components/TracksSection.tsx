@@ -1,34 +1,40 @@
-import { FolderCode, Plug2, CircuitBoard, Hammer, Clapperboard } from "lucide-react";
+import { FolderCode, Plug2, CircuitBoard, Hammer, Clapperboard, Music } from "lucide-react";
 
 const tracks = [
   {
     icon: FolderCode,
-    title: "Software",
+    title: "AstraX (Software)",
     description: "Integrate AI into software workflows to make them more efficient",
     color: "from-primary to-accent",
   },
   {
     icon: CircuitBoard,
-    title: "Electronics",
+    title: "CarbonX (Electronics)",
     description: "Build AI-enabled electronic systems that rethink and optimize everyday workflows.",
     color: "from-accent to-neon",
   },
   {
     icon: Plug2,
-    title: "EEE & Instrumentation",
+    title: "SyncConX (EEE & Instrumentation)",
     description: "Create data-driven electrical and instrumentation systems for smarter, more efficient workflows.",
     color: "from-primary to-crimson",
   },
   {
     icon: Hammer,
-    title: "Civil & Mechanical",
+    title: "HeliX (Civil)",
     description: "Integrate intelligent tools into civil and mechanical engineering to build smarter, more efficient workflows.",
     color: "from-accent to-primary",
   },
   {
     icon: Clapperboard,
-    title: "Film & Music",
-    description: "Create innovative film and music solutions that streamline, augment, and elevate creative workflows.",
+    title: "ScreenX (Film)",
+    description: "Create innovative film solutions that streamline, augment, and elevate production workflows.",
+    color: "from-primary to-accent",
+  },
+  {
+    icon: Music,
+    title: "UnmuteX (Music)",
+    description: "Create innovative music solutions that streamline, augment, and elevate production workflows.",
     color: "from-primary to-accent",
   },
 ];
