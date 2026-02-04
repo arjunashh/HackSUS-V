@@ -1,28 +1,15 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import {
-  ArrowRight,
-  CalendarDays,
-  Check,
-  ChevronRight,
-  Mail,
-  MapPin,
-  Phone,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 import ResponsiveParticles from "@/components/ResponsiveParticles";
 import DecryptedText from "@/components/DecryptedText";
+import Magnet from "@/components/Magnet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 
 const carbonX = {
   eventName: "CARBONX",
@@ -41,128 +28,10 @@ const carbonX = {
     { label: "PARTICIPANTS", value: "250+ expected" },
     { label: "VISITORS", value: "3000+ expected" },
   ],
-  chips: ["42 hours", "250+ participants", "3000+ visitors", "National hackathon"],
-  aboutCards: [
-    {
-      title: "A 42-hour build marathon",
-      body: "A 42 hour national hackathon where teams build practical, high-impact solutions.",
-    },
-    {
-      title: "Who it’s for",
-      body: "Developers, innovators, and students from across India.",
-    },
-    {
-      title: "The vibe",
-      body: "Round-the-clock problem-solving, prototyping, and chaos-powered innovation — with mentors and industry experts.",
-    },
-  ],
-  experience: [
-    {
-      title: "Build Sprint (42 hours)",
-      items: ["Team up", "Build", "Prototype", "Iterate"],
-    },
-    {
-      title: "Mentors & Experts",
-      items: ["Industry experts", "Mentorship", "Guidance"],
-    },
-    {
-      title: "Prototype & Present",
-      body: "Turn ideas into practical demos and present outcomes.",
-    },
-  ],
-  tracks: [
-    {
-      title: "Vegathon",
-      description: "Sustainability, climate, and impact-driven builds.",
-    },
-    {
-      title: "Electrothon (EDA Based)",
-      description: "Electronics / EDA-based innovation track.",
-    },
-    {
-      title: "Wildcard",
-      description: "Coming soon.",
-      comingSoon: true,
-    },
-  ],
-  whyItMatters: [
-    "Direct access to skilled participants",
-    "Early hiring pipeline",
-    "Product exposure",
-    "Data & insights",
-    "Brand presence where it counts",
-  ],
-  partnershipOptions: [
-    {
-      title: "Technical Support",
-      description: "Provision of hardware kits, software packages and licenses.",
-    },
-    {
-      title: "Technical Contribution",
-      description: "Mentorship and guidance from company experts.",
-    },
-    {
-      title: "Track Sponsors",
-      description: "Exclusive association with individual hackathon tracks.",
-    },
-    {
-      title: "Equipment Sponsors",
-      description: "Provide boards, kits or licenses.",
-    },
-    {
-      title: "Prize Sponsors",
-      description: "Fund prizes or provide merchandise.",
-    },
-    {
-      title: "Food & Logistics Sponsors",
-      description: "Provide meals, snacks and participant kits.",
-    },
-    {
-      title: "Talent Engagement",
-      description: "Internship or placement opportunities for top-performing participants.",
-    },
-  ],
-  collaboration: {
-    title: "IN COLLABORATION WITH",
-    badge: "HackS'US — Edition V",
-    body:
-      "HackS'US is a flagship event from Rajagiri School of Engineering & Technology, presented in collaboration with its two premier student innovation bodies, Innovation and Entrepreneurship Development Center (IEDC) and Institution's Innovation Council (IIC).",
-  },
-  faq: [
-    {
-      q: "Who can apply?",
-      a: "Anyone who wants to build and learn — details and eligibility will be shared when registrations go live.",
-    },
-    {
-      q: "Is there a registration fee?",
-      a: "Registration details will be announced soon. The current button is a placeholder.",
-    },
-    {
-      q: "What should we bring?",
-      a: "Bring your laptop, chargers, and anything you need to prototype — a full checklist will be shared later.",
-    },
-    {
-      q: "How do teams work?",
-      a: "Team formation and size guidelines will be announced closer to the event.",
-    },
-  ],
-  contacts: [
-    {
-      name: "Mr. Nitheesh Kurian",
-      phone: "+91 9497413879",
-      email: "nitheshk@rajagiritech.edu.in",
-    },
-    {
-      name: "Mr. Rony Antony",
-      phone: "+91 9744433929",
-      email: "ronya@rajagiritech.edu.in",
-    },
-    {
-      name: "Mr. Kiran K A",
-      phone: "+91 9747638947",
-      email: "kirank@rajagiritech.edu.in",
-    },
-  ],
+  aboutLong:
+    "CARBONX is the flagship hackathon initiative curated by the Department of Electronics and Communication Engineering, currently conducted as a dedicated track under Hacks’us, an innovation event organized by IEDC and IICRSET. CARBONX focuses on hardware-centric innovation, embedded systems, and electronics-driven problem solving, providing participants with a platform to design, prototype, and validate real-world engineering solutions. While hosted under Hacks’us for the present edition, CARBONX retains complete technical ownership by the department and is envisioned as an annual, independently conducted hackathon in the coming years. The initiative continues its collaboration with the Centre for Development of Advanced Computing (CDAC), reinforcing its emphasis on indigenous technology and deep-tech development.",
+  historyLong:
+    "CARBONX traces its origins back to 2022, when it was first launched as VEGATHON, a national-level hardware hackathon conducted by the Department of Electronics and Communication Engineering in collaboration with CDAC. VEGATHON 2022 was centered around the VEGA Processor, an indigenous processor architecture developed by CDAC, and was designed to promote hands-on learning, processor-level understanding, and system-based innovation. Building on the success and technical legacy of VEGATHON, the initiative was later rebranded as CARBON, with CARBONX introduced as its competitive hackathon format. This evolution reflects the department’s long-term vision of creating a sustained innovation ecosystem rooted in electronics and hardware excellence.",
 } as const;
 
 function useActiveSection(sectionIds: string[]) {
@@ -175,13 +44,17 @@ function useActiveSection(sectionIds: string[]) {
     if (items.length === 0) return;
 
     let rafId = 0;
-    const navOffset = 84; // navbar height + breathing room
+    const getNavOffset = () => {
+      const header = document.querySelector(".landing-header") as HTMLElement | null;
+      const headerHeight = header?.getBoundingClientRect().height ?? 0;
+      return headerHeight + 12; // a bit of breathing room under the fixed header
+    };
 
     const compute = () => {
       // Pick the section whose midpoint is closest to a "focus line" inside the viewport.
       // This makes the active underline feel immediate when scrolling up/down (no need to
       // wait for a section to hit the exact top).
-      const focusY = navOffset + window.innerHeight * 0.36;
+      const focusY = getNavOffset() + window.innerHeight * 0.36;
       let bestId = items[0]?.id ?? "";
       let bestDist = Number.POSITIVE_INFINITY;
 
@@ -334,7 +207,7 @@ function CarbonXNavbar({
             e.preventDefault();
             onNavigate("top");
           }}
-          className="font-mokoto tracking-[0.32em] text-sm text-foreground/90 hover:text-foreground transition-colors"
+          className="font-mokoto tracking-[0.32em] text-[15px] text-foreground/90 hover:text-foreground transition-colors"
           aria-label="Go to top"
         >
           CARBONX
@@ -379,8 +252,8 @@ function CarbonXNavbar({
 
         <div className="flex items-center gap-3">
           <Button
-            onClick={() => onNavigate("register")}
-            className="rounded-xl px-6 h-9 font-display tracking-wider text-sm shadow-[0_10px_30px_hsl(var(--primary)/0.18)]"
+            onClick={() => onNavigate("problems")}
+            className="landing-nav-cta rounded-xl px-6 h-9 shadow-[0_10px_30px_hsl(var(--primary)/0.18)]"
           >
             REGISTER NOW <ArrowRight className="ml-1" />
           </Button>
@@ -393,20 +266,25 @@ function CarbonXNavbar({
 const CarbonX = () => {
   const location = useLocation();
   const sectionIds = useMemo(
-    () => ["about", "experience", "tracks", "faq", "contact"],
+    () => ["about", "history", "tracks", "problems"],
     [],
   );
   const activeId = useActiveSection(sectionIds);
   const particleColors = useMemo(() => ["#ffffff"], []);
+  const [magnetDisabled, setMagnetDisabled] = useState(true);
+  const getNavOffset = useCallback(() => {
+    const header = document.querySelector(".landing-header") as HTMLElement | null;
+    const headerHeight = header?.getBoundingClientRect().height ?? 0;
+    return Math.max(0, Math.round(headerHeight + 12));
+  }, []);
   const scrollToSection = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    const navOffset = 84; // navbar height + breathing room
-    const top = el.getBoundingClientRect().top + window.scrollY - navOffset;
+    const top = el.getBoundingClientRect().top + window.scrollY - getNavOffset();
     // Keep the landing view stable on reload by not persisting section hashes.
     window.history.replaceState(null, "", window.location.pathname + window.location.search);
     window.scrollTo({ top, behavior: "smooth" });
-  }, []);
+  }, [getNavOffset]);
 
   useEffect(() => {
     // Prevent browser scroll restoration from skipping the hero on reload.
@@ -416,6 +294,12 @@ const CarbonX = () => {
     return () => {
       window.history.scrollRestoration = prev;
     };
+  }, []);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    setMagnetDisabled(prefersReducedMotion || isTouchDevice);
   }, []);
 
   useEffect(() => {
@@ -474,10 +358,9 @@ const CarbonX = () => {
           activeId={activeId}
           items={[
             { id: "about", label: "ABOUT" },
-            { id: "experience", label: "EXPERIENCE" },
+            { id: "history", label: "HISTORY" },
             { id: "tracks", label: "TRACKS" },
-            { id: "faq", label: "FAQ" },
-            { id: "contact", label: "CONTACT" },
+            { id: "problems", label: "PROBLEMS" },
           ]}
           onNavigate={scrollToSection}
         />
@@ -501,15 +384,16 @@ const CarbonX = () => {
               </h1>
 
               <div className="landing-prize">
-                <div className="font-mono text-2xl sm:text-3xl md:text-4xl tracking-[0.18em] text-foreground leading-none">
+                <div className="landing-prize-value font-mono text-foreground">
                   <DecryptedText
                     text={carbonX.prizeAmount}
                     animateOn="view"
                     speed={60}
                     maxIterations={20}
-                    parentClassName="font-mono tracking-[0.18em]"
-                    className="text-foreground"
-                    encryptedClassName="text-foreground/55"
+                    numbersOnly={true}
+                    parentClassName="landing-prize-value font-mono"
+                    className="landing-prize-value text-foreground"
+                    encryptedClassName="landing-prize-value text-foreground"
                     aria-label={carbonX.prizeAmount}
                   />
                 </div>
@@ -524,19 +408,33 @@ const CarbonX = () => {
               </p>
 
               <div className="landing-actions flex-col sm:flex-row items-center">
-                <Button
-                  onClick={() => scrollToSection("register")}
-                  className="rounded-xl px-7 h-11 font-display tracking-wider shadow-[0_14px_42px_hsl(var(--primary)/0.18)]"
+                <Magnet
+                  disabled={magnetDisabled}
+                  padding={90}
+                  magnetStrength={9}
+                  wrapperClassName="inline-block"
                 >
-                  REGISTER NOW
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => scrollToSection("about")}
-                  className="rounded-xl px-7 h-11 bg-background/10 border-border/60 hover:bg-background/20"
+                  <Button
+                    onClick={() => scrollToSection("problems")}
+                    className="landing-button rounded-xl px-7 h-11"
+                  >
+                    REGISTER NOW
+                  </Button>
+                </Magnet>
+                <Magnet
+                  disabled={magnetDisabled}
+                  padding={80}
+                  magnetStrength={11}
+                  wrapperClassName="inline-block"
                 >
-                  LEARN MORE
-                </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => scrollToSection("about")}
+                    className="landing-button-secondary rounded-xl px-7 h-11"
+                  >
+                    LEARN MORE
+                  </Button>
+                </Magnet>
               </div>
 
               <motion.div
@@ -556,93 +454,28 @@ const CarbonX = () => {
                           idx !== 0 && "sm:border-l sm:border-border/60",
                         )}
                       >
-                        <div className="font-mono text-[10px] tracking-[0.44em] text-muted-foreground">
-                          {s.label}
-                        </div>
-                        <div className="mt-2 font-display text-xl tracking-wide">
-                          {s.value}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
+	                        <div className="font-mono text-[10px] tracking-[0.44em] text-muted-foreground">
+	                          {s.label}
+	                        </div>
+	                        <div className="mt-2">
+	                          <DecryptedText
+	                            text={s.value}
+	                            animateOn="view"
+	                            speed={55}
+	                            maxIterations={16}
+	                            numbersOnly={true}
+	                            parentClassName="font-display text-xl tracking-wide"
+	                            className="text-foreground"
+	                            encryptedClassName="text-foreground"
+	                            aria-label={s.value}
+	                          />
+	                        </div>
+	                      </div>
+	                    ))}
+	                  </div>
+	                </div>
+	              </motion.div>
             </motion.div>
-          </div>
-        </section>
-
-        {/* Event strip */}
-        <section id="register" className="relative py-14 md:py-20 scroll-mt-24">
-          <div className="container max-w-[1100px] px-6">
-            <GlassCard className="p-7 md:p-10">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-                <div className="lg:col-span-7 flex flex-col justify-between">
-                  <div>
-                    <div className="inline-flex items-center gap-2">
-                      <Badge
-                        className="rounded-full bg-primary/15 text-primary border border-primary/25"
-                        variant="outline"
-                      >
-                        JOIN US
-                      </Badge>
-                    </div>
-
-                    <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
-                      <div className="flex items-center gap-2 text-foreground">
-                        <CalendarDays className="h-4 w-4 text-primary" />
-                        <span className="font-display text-2xl tracking-wide">
-                          {carbonX.date}
-                        </span>
-                      </div>
-                      <div className="h-6 w-px bg-border/70 hidden sm:block" />
-                      <div className="flex items-center gap-2 text-foreground">
-                        <MapPin className="h-4 w-4 text-primary" />
-                        <span className="font-display text-2xl tracking-wide">
-                          {carbonX.city}
-                        </span>
-                      </div>
-                    </div>
-
-                    <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                      {carbonX.organizer}
-                    </p>
-                  </div>
-
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {carbonX.chips.map((chip) => (
-                      <Badge
-                        key={chip}
-                        variant="outline"
-                        className="rounded-full border-border/60 bg-background/10 text-muted-foreground"
-                      >
-                        {chip}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="lg:col-span-5 relative overflow-hidden rounded-none card-beveled border border-border/70 bg-card/60 p-7 md:p-8">
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-80" />
-                  <div className="relative">
-                    <div className="font-mono text-[11px] tracking-[0.38em] text-muted-foreground">
-                      REGISTER NOW
-                    </div>
-                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                      Registration opens soon. This is a placeholder button; link will be added once
-                      registrations go live.
-                    </p>
-                    <div className="mt-6">
-                      <Button
-                        className="rounded-xl px-6 h-10 font-display tracking-wider shadow-[0_12px_36px_hsl(var(--primary)/0.16)]"
-                        type="button"
-                      >
-                        REGISTER NOW <ArrowRight className="ml-1" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </GlassCard>
           </div>
         </section>
 
@@ -653,87 +486,155 @@ const CarbonX = () => {
             eyebrow="ABOUT"
             title={
               <>
-                Built for <span className="text-primary">builders.</span>
+                What is <span className="font-mokoto">CARBONX</span>?
               </>
             }
-            description="A national hackathon designed to move fast, build practical demos, and ship impact."
+            description="Hardware-first, department-led, and built for real-world engineering prototypes."
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
-            {carbonX.aboutCards.map((c) => (
-              <motion.div
-                key={c.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
-                transition={{ duration: 0.55, ease: "easeOut" }}
-              >
-                <GlassCard className="p-7 md:p-8 h-full">
-                  <div className="font-display text-xl md:text-2xl tracking-wide">
-                    {c.title}
-                  </div>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                    {c.body}
-                  </p>
-                </GlassCard>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
+              className="lg:col-span-7"
+            >
+              <GlassCard className="p-7 md:p-8 h-full">
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                  {carbonX.aboutLong}
+                </p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  <Badge
+                    className="rounded-full bg-primary/15 text-primary border border-primary/25"
+                    variant="outline"
+                  >
+                    Hardware-centric
+                  </Badge>
+                  <Badge
+                    className="rounded-full bg-background/10 text-muted-foreground border border-border/60"
+                    variant="outline"
+                  >
+                    Embedded systems
+                  </Badge>
+                  <Badge
+                    className="rounded-full bg-background/10 text-muted-foreground border border-border/60"
+                    variant="outline"
+                  >
+                    Deep-tech development
+                  </Badge>
+                </div>
+              </GlassCard>
+            </motion.div>
+
+            <div className="lg:col-span-5 grid grid-cols-1 gap-5 md:gap-8">
+              {[
+                {
+                  label: "OWNERSHIP",
+                  title: "Department-led, technically owned.",
+                  body:
+                    "Curated and owned by the Department of Electronics and Communication Engineering, with a long-term plan to evolve as a standalone annual hackathon.",
+                },
+                {
+                  label: "COLLABORATION",
+                  title: "Built with CDAC.",
+                  body:
+                    "Continuing collaboration with CDAC to reinforce indigenous technology and a deep-tech engineering focus.",
+                },
+              ].map((b) => (
+                <motion.div
+                  key={b.title}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
+                  transition={{ duration: 0.55, ease: "easeOut" }}
+                >
+                  <GlassCard className="p-7 md:p-8">
+                    <div className="font-mono text-[10px] tracking-[0.52em] text-muted-foreground">
+                      {b.label}
+                    </div>
+                    <div className="mt-2 font-display text-xl tracking-wide">
+                      {b.title}
+                    </div>
+                    <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                      {b.body}
+                    </p>
+                  </GlassCard>
+                </motion.div>
+              ))}
+            </div>
           </div>
           </div>
         </section>
 
-        {/* Experience */}
-        <section id="experience" className="relative py-20 md:py-28 scroll-mt-24">
+        {/* History */}
+        <section id="history" className="relative py-20 md:py-28 scroll-mt-24">
           <div className="container max-w-[1100px] px-6">
           <SectionHeading
-            eyebrow="EXPERIENCE"
+            eyebrow="HISTORY"
             title={
               <>
-                A focused <span className="text-primary">42-hour</span> arc.
+                From <span className="text-primary">VEGATHON</span> to{" "}
+                <span className="font-mokoto">CARBONX</span>.
               </>
             }
-            description="No rigid agenda — just a high-signal build experience with expert support."
+            description="A hardware hackathon lineage focused on indigenous tech and deep systems learning."
           />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-8">
-            {carbonX.experience.map((x) => (
-              <motion.div
-                key={x.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
-                transition={{ duration: 0.55, ease: "easeOut" }}
-              >
-                <GlassCard className="p-7 md:p-8 h-full">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="font-display text-xl md:text-2xl tracking-wide">
-                      {x.title}
-                    </div>
-                    <div className="h-10 w-10 rounded-full border border-border/60 bg-background/15 flex items-center justify-center">
-                      <div className="h-2 w-2 rounded-full bg-primary shadow-[0_0_18px_hsl(var(--primary)/0.55)]" />
-                    </div>
-                  </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-8 items-start">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
+              className="lg:col-span-7"
+            >
+              <GlassCard className="p-7 md:p-8">
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                  {carbonX.historyLong}
+                </p>
+              </GlassCard>
+            </motion.div>
 
-                  {x.items ? (
-                    <ul className="mt-4 space-y-2">
-                      {x.items.map((it) => (
-                        <li
-                          key={it}
-                          className="flex items-start gap-2 text-sm text-muted-foreground"
-                        >
-                          <Check className="mt-0.5 h-4 w-4 text-primary" />
-                          <span>{it}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                      {x.body}
+            <div className="lg:col-span-5 grid grid-cols-1 gap-5 md:gap-8">
+              {[
+                {
+                  year: "2022",
+                  title: "VEGATHON",
+                  body:
+                    "National-level hardware hackathon centered around the VEGA Processor, built with CDAC.",
+                },
+                {
+                  year: "After",
+                  title: "CARBON → CARBONX",
+                  body:
+                    "Rebranded to strengthen continuity, with CARBONX as the competitive hackathon format.",
+                },
+              ].map((t) => (
+                <motion.div
+                  key={t.title}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
+                  transition={{ duration: 0.55, ease: "easeOut" }}
+                >
+                  <GlassCard className="p-7 md:p-8">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <div className="font-mono text-xs tracking-[0.38em] text-muted-foreground">
+                        {t.year}
+                      </div>
+                      <div className="h-px flex-1 bg-border/60" />
+                    </div>
+                    <div className="mt-3 font-display text-xl tracking-wide">
+                      {t.title}
+                    </div>
+                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                      {t.body}
                     </p>
-                  )}
-                </GlassCard>
-              </motion.div>
-            ))}
+                  </GlassCard>
+                </motion.div>
+              ))}
+            </div>
           </div>
           </div>
         </section>
@@ -745,14 +646,27 @@ const CarbonX = () => {
             eyebrow="TRACKS"
             title={
               <>
-                Pick a <span className="text-primary">track.</span> Build something real.
+                Two tracks. One <span className="text-primary">hardware-first</span> mindset.
               </>
             }
-            description="Each track has its own focus — keep it practical, high-impact, and demo-ready."
+            description="Pick the lane that matches your build — embedded systems, processors, or electronic design workflows."
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
-            {carbonX.tracks.map((t) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
+            {[
+              {
+                title: "VEGATHON (VEGA Processor)",
+                description:
+                  "Processor-aware, system-level builds inspired by the VEGA Processor lineage — prototype real hardware-first solutions.",
+                badge: "01",
+              },
+              {
+                title: "Electrothon (EDA Based)",
+                description:
+                  "EDA-driven electronic design workflows — build, simulate, validate, and ship clean, practical implementations.",
+                badge: "02",
+              },
+            ].map((t) => (
               <motion.div
                 key={t.title}
                 initial={{ opacity: 0, y: 18 }}
@@ -770,15 +684,11 @@ const CarbonX = () => {
                         {t.description}
                       </p>
                     </div>
-                    {t.comingSoon ? (
-                      <Badge className="rounded-full bg-muted/40 text-muted-foreground border border-border/60">
-                        Coming soon
-                      </Badge>
-                    ) : (
-                      <Badge className="rounded-full bg-primary/15 text-primary border border-primary/25">
-                        Live
-                      </Badge>
-                    )}
+                    <div className="flex flex-col items-end gap-2">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.34em] text-primary shadow-[0_0_0_1px_rgba(255,49,46,0.06),0_14px_40px_rgba(255,49,46,0.08)]">
+                        TRACK <span className="text-foreground/90">{t.badge}</span>
+                      </span>
+                    </div>
                   </div>
 
                   <div className="mt-6 h-px w-full bg-border/70" />
@@ -789,99 +699,20 @@ const CarbonX = () => {
           </div>
         </section>
 
-        {/* Why it matters */}
-        <section className="relative py-20 md:py-28">
+        {/* Problem statements */}
+        <section id="problems" className="relative py-20 md:py-28 scroll-mt-24">
           <div className="container max-w-[1100px] px-6">
           <SectionHeading
-            eyebrow="WHY IT MATTERS"
+            eyebrow="PROBLEM STATEMENTS"
             title={
               <>
-                Signal, not <span className="text-primary">noise.</span>
+                The build starts with a{" "}
+                <span className="text-primary">real problem.</span>
               </>
             }
-            description="A hackathon designed to connect people, products, and opportunities."
+            description="We’ll publish the final problem statements soon — aligned to both tracks."
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
-            {carbonX.whyItMatters.map((b) => (
-              <motion.div
-                key={b}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
-                transition={{ duration: 0.55, ease: "easeOut" }}
-              >
-                <GlassCard className="p-7 md:p-8">
-                  <div className="flex items-start gap-3">
-                    <div className="h-10 w-10 border border-primary/30 bg-primary/10 flex items-center justify-center">
-                      <Check className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="font-display text-xl tracking-wide">
-                      {b}
-                    </div>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            ))}
-          </div>
-          </div>
-        </section>
-
-        {/* Partnerships */}
-        <section className="relative py-20 md:py-28">
-          <div className="container max-w-[1100px] px-6">
-          <SectionHeading
-            eyebrow="PARTNERSHIPS"
-            title={
-              <>
-                Support the <span className="text-primary">build.</span>
-              </>
-            }
-            description={
-              <>
-                Partner with <span className="font-mokoto">CARBONX</span> across tracks, prizes,
-                logistics, and talent engagement.
-              </>
-            }
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
-            {carbonX.partnershipOptions.map((p) => (
-              <motion.div
-                key={p.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
-                transition={{ duration: 0.55, ease: "easeOut" }}
-              >
-                <GlassCard className="p-7 md:p-8 h-full">
-                  <div className="font-display text-xl tracking-wide">
-                    {p.title}
-                  </div>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                    {p.description}
-                  </p>
-                </GlassCard>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-10">
-            <div className="mx-auto max-w-3xl rounded-none card-beveled border border-border/70 bg-card/60 px-6 py-6 text-center">
-              <div className="font-mono text-xs tracking-[0.38em] text-muted-foreground">
-                PRIZES
-              </div>
-              <div className="mt-2 font-display text-2xl tracking-wide">
-                PRIZES WORTH RS. 1 LAKH PER TRACK
-              </div>
-            </div>
-          </div>
-          </div>
-        </section>
-
-        {/* Collaboration callout */}
-        <section className="relative py-14 md:py-20">
-          <div className="container max-w-[1100px] px-6">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -889,105 +720,27 @@ const CarbonX = () => {
             transition={{ duration: 0.55, ease: "easeOut" }}
           >
             <GlassCard className="p-7 md:p-10">
-              <div className="flex flex-col lg:flex-row lg:items-center gap-6 justify-between">
-                <div>
-                  <div className="font-mono text-xs tracking-[0.38em] text-muted-foreground">
-                    {carbonX.collaboration.title}
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div className="max-w-2xl">
+                  <div className="font-display text-2xl md:text-3xl tracking-wide">
+                    Coming soon.
                   </div>
-                  <p className="mt-3 text-muted-foreground leading-relaxed max-w-3xl">
-                    {carbonX.collaboration.body}
+                  <p className="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">
+                    Once released, you’ll be able to pick a statement, map it to a track, and start
+                    prototyping immediately. Keep this page bookmarked.
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Badge className="rounded-full bg-primary/15 text-primary border border-primary/25">
-                    {carbonX.collaboration.badge}
-                  </Badge>
+                <div className="flex items-center gap-3">
+                  <Button
+                    onClick={() => scrollToSection("top")}
+                    className="rounded-xl px-7 h-11 font-display tracking-wider shadow-[0_10px_30px_hsl(var(--primary)/0.18)]"
+                  >
+                    BACK TO TOP <ArrowRight className="ml-1" />
+                  </Button>
                 </div>
               </div>
             </GlassCard>
           </motion.div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section id="faq" className="relative py-20 md:py-28 scroll-mt-24">
-          <div className="container max-w-4xl px-6">
-          <SectionHeading
-            eyebrow="FAQ"
-            title={
-              <>
-                Quick <span className="text-primary">answers.</span>
-              </>
-            }
-            description="A few common questions — final details will be shared with registrations."
-          />
-
-          <GlassCard className="p-2 md:p-4">
-            <Accordion type="single" collapsible className="w-full">
-              {carbonX.faq.map((f, idx) => (
-                <AccordionItem
-                  key={f.q}
-                  value={`item-${idx}`}
-                  className="border-border/60"
-                >
-                  <AccordionTrigger className="px-4 md:px-6">
-                    {f.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 md:px-6 text-muted-foreground">
-                    {f.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </GlassCard>
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section id="contact" className="relative py-20 md:py-28 scroll-mt-24">
-          <div className="container max-w-[1100px] px-6">
-          <SectionHeading
-            eyebrow="CONTACT INFORMATION"
-            title={
-              <>
-                Get in <span className="text-primary">touch.</span>
-              </>
-            }
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
-            {carbonX.contacts.map((c) => (
-              <motion.div
-                key={c.email}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
-                transition={{ duration: 0.55, ease: "easeOut" }}
-              >
-                <GlassCard className="p-7 md:p-8 h-full">
-                  <div className="font-display text-xl md:text-2xl tracking-wide">
-                    {c.name}
-                  </div>
-                  <div className="mt-5 space-y-3 text-sm">
-                    <a
-                      href={`tel:${c.phone.replace(/\s+/g, "")}`}
-                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <Phone className="h-4 w-4 text-primary" />
-                      <span>{c.phone}</span>
-                    </a>
-                    <a
-                      href={`mailto:${c.email}`}
-                      className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <Mail className="h-4 w-4 text-primary" />
-                      <span>{c.email}</span>
-                    </a>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            ))}
-          </div>
           </div>
         </section>
 
