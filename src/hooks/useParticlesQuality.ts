@@ -92,11 +92,11 @@ export function useParticleTuning(): ParticleTuning {
     if (tier === "high") {
       return {
         maxFps: 50,
-        particleCount: 170,
+        particleCount: 185,
         particleBaseSize: 180,
         speed: 0.14,
         particleHoverFactor: 1.8,
-        pixelRatio: 1,
+        pixelRatio: 1.15,
         particleSpread: 12,
         sizeRandomness: 0.62,
       };

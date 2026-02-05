@@ -6,7 +6,6 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import ResponsiveParticles from "@/components/ResponsiveParticles";
 import DecryptedText from "@/components/DecryptedText";
-import Magnet from "@/components/Magnet";
 import ShinyText from "@/components/ShinyText";
 import SpotlightCard from "@/components/SpotlightCard";
 import TrueFocus from "@/components/TrueFocus";
@@ -28,6 +27,10 @@ const carbonX = {
   city: "KOCHI",
   organizer:
     "Organized by Department of Electronics and Communication Engineering, Rajagiri School of Engineering & Technology (Autonomous)",
+  registerUrls: {
+    vegathon: "",
+    electrothon: "",
+  },
   stats: [
     { label: "DURATION", value: "42 hours" },
     { label: "PARTICIPANTS", value: "250+ expected" },
@@ -267,17 +270,17 @@ function CarbonXNavbar({
 
         <div className="flex items-center gap-3">
           <Button
-            onClick={() => onNavigate("problems")}
+            onClick={() => onNavigate("tracks")}
             className="landing-nav-cta hidden md:inline-flex rounded-xl px-6 h-9 shadow-[0_10px_30px_hsl(var(--primary)/0.18)]"
           >
-            REGISTER NOW <ArrowRight className="ml-1" />
+            CHOOSE TRACK <ArrowRight className="ml-1" />
           </Button>
 
           <Button
-            onClick={() => onNavigate("problems")}
+            onClick={() => onNavigate("tracks")}
             className="landing-nav-cta md:hidden inline-flex rounded-xl px-4 h-9 shadow-[0_10px_30px_hsl(var(--primary)/0.18)]"
           >
-            REGISTER <ArrowRight className="ml-1" />
+            TRACKS <ArrowRight className="ml-1" />
           </Button>
 
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -333,11 +336,11 @@ function CarbonXNavbar({
                 <div className="pt-2">
                   <Button
                     onClick={() => {
-                      navigateFromSheet("problems");
+                      navigateFromSheet("tracks");
                     }}
                     className="landing-nav-cta w-full rounded-xl h-11 shadow-[0_16px_46px_hsl(var(--primary)/0.18)]"
                   >
-                    REGISTER NOW <ArrowRight className="ml-1" />
+                    CHOOSE TRACK <ArrowRight className="ml-1" />
                   </Button>
                 </div>
               </div>
@@ -380,6 +383,17 @@ const CarbonX = () => {
       window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
     });
   }, [getNavOffset]);
+  const openRegistration = useCallback(
+    (track: keyof typeof carbonX.registerUrls) => {
+      const url = carbonX.registerUrls[track];
+      if (url) {
+        window.open(url, "_blank", "noopener,noreferrer");
+        return;
+      }
+      scrollToSection(track === "vegathon" ? "track-vegathon" : "track-electrothon");
+    },
+    [scrollToSection],
+  );
 
   useEffect(() => {
     // Prevent browser scroll restoration from skipping the hero on reload.
@@ -462,7 +476,7 @@ const CarbonX = () => {
         />
 
         {/* Hero */}
-        <section className="relative pt-20 md:pt-24 pb-10 md:pb-14">
+        <section className="relative pt-16 md:pt-20 pb-8 md:pb-12">
           <div className="container max-w-[1100px] px-6">
             <motion.div
               initial={{ opacity: 0, y: 14 }}
@@ -489,59 +503,95 @@ const CarbonX = () => {
                 <span className="landing-year">{carbonX.year}</span>
               </h1>
 
-              <div className="landing-prize">
-                <div className="landing-prize-value font-mono text-foreground">
-                  <DecryptedText
-                    text={carbonX.prizeAmount}
-                    animateOn="view"
-                    speed={60}
-                    maxIterations={20}
-                    numbersOnly={true}
-                    parentClassName="landing-prize-value font-mono"
-                    className="landing-prize-value text-foreground"
-                    encryptedClassName="landing-prize-value text-foreground"
-                    aria-label={carbonX.prizeAmount}
-                  />
-                </div>
-                <div className="mt-2 font-mono text-[10px] tracking-[0.56em] text-muted-foreground">
-                  {carbonX.prizeCaption}
-                </div>
-              </div>
-
               <p className="landing-subtitle mx-auto text-muted-foreground">
                 A 42 hour national hackathon where developers, innovators, and students from across
                 India team up to build practical, high-impact solutions.
               </p>
 
-              <div className="landing-actions carbonx-actions flex-col sm:flex-row items-center">
-                <Magnet
-                  disabled={magnetDisabled}
-                  padding={90}
-                  magnetStrength={9}
-                  wrapperClassName="inline-block"
-                >
-                  <Button
-                    onClick={() => scrollToSection("problems")}
-                    className="landing-button rounded-xl px-7 h-11"
-                  >
-                    REGISTER NOW
-                  </Button>
-                </Magnet>
-                <Magnet
-                  disabled={magnetDisabled}
-                  padding={80}
-                  magnetStrength={11}
-                  wrapperClassName="inline-block"
-                >
-                  <Button
-                    variant="outline"
-                    onClick={() => scrollToSection("about")}
-                    className="landing-button-secondary rounded-xl px-7 h-11"
-                  >
-                    LEARN MORE
-                  </Button>
-                </Magnet>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.08 }}
+                className="mt-6 w-full max-w-[52rem]"
+              >
+                <div className="mx-auto rounded-none card-beveled border border-border/70 bg-card/40 backdrop-blur-sm px-5 py-4 md:px-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <span className="inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.34em] text-primary shadow-[0_0_0_1px_rgba(255,49,46,0.06),0_14px_40px_rgba(255,49,46,0.08)]">
+                        2 TRACKS
+                      </span>
+                      <div className="font-mono text-[10px] tracking-[0.52em] text-muted-foreground">
+                        PICK YOUR LANE
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => scrollToSection("tracks")}
+                      className="inline-flex items-center justify-center rounded-xl border border-border/70 bg-background/5 px-4 py-2 font-display text-xs tracking-widest text-foreground/90 transition hover:bg-background/10 hover:border-border/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      aria-label="Jump to the tracks section"
+                    >
+                      VIEW TRACKS <ArrowRight className="ml-2 h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {[
+                      {
+                        badge: "01",
+                        title: "VEGATHON",
+                        meta: "VEGA Processor",
+                        blurb: "System-level builds inspired by indigenous processor lineage.",
+                        registerKey: "vegathon",
+                      },
+                      {
+                        badge: "02",
+                        title: "ELECTROTHON",
+                        meta: "EDA Based",
+                        blurb: "Design, simulate, validate — ship clean electronic workflows.",
+                        registerKey: "electrothon",
+                      },
+                    ].map((t) => (
+                      <div
+                        key={t.title}
+                        className="group relative overflow-hidden text-left rounded-none card-beveled border border-border/70 bg-background/5 px-5 py-3.5 transition hover:bg-background/10 hover:border-border/90"
+                      >
+                        <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-primary/10 via-transparent to-transparent" />
+                        <div className="pointer-events-none absolute -top-8 -right-6 font-mono text-[6.5rem] leading-none tracking-[0.18em] text-transparent opacity-80 [-webkit-text-stroke:1px_hsl(var(--foreground)_/_0.18)] [text-shadow:0_0_32px_hsl(var(--primary)_/_0.12)] group-hover:opacity-95">
+                          {t.badge}
+                        </div>
+
+                        <div className="relative">
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="font-mono text-[10px] tracking-[0.56em] text-muted-foreground uppercase">
+                              TRACK {t.badge}
+                            </div>
+                            <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.34em] text-primary">
+                              {t.meta}
+                            </span>
+                          </div>
+                          <div className="mt-3 font-display text-lg md:text-xl tracking-wide text-foreground/95">
+                            {t.title}
+                          </div>
+                          <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                            {t.blurb}
+                          </p>
+
+                          <div className="mt-3.5 pt-3.5 border-t border-border/60 flex items-center justify-between gap-3">
+                            <Button
+                              type="button"
+                              onClick={() => scrollToSection("tracks")}
+                              className="h-9 rounded-xl px-4 font-display tracking-widest shadow-[0_12px_34px_hsl(var(--primary)/0.18)]"
+                              aria-label={`View ${t.title} track details`}
+                            >
+                              DETAILS <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
@@ -610,7 +660,7 @@ const CarbonX = () => {
               className="lg:col-span-7"
             >
               <GlassCard className="p-7 md:p-8 h-full">
-                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed md:text-justify hyphens-auto">
                   {carbonX.aboutLong}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
@@ -779,20 +829,27 @@ const CarbonX = () => {
           >
             {[
               {
+                id: "track-vegathon",
                 title: "VEGATHON (VEGA Processor)",
                 description:
                   "Processor-aware, system-level builds inspired by the VEGA Processor lineage — prototype real hardware-first solutions.",
                 badge: "01",
+                registerKey: "vegathon",
+                ctaLabel: "VEGATHON",
               },
               {
+                id: "track-electrothon",
                 title: "Electrothon (EDA Based)",
                 description:
                   "EDA-driven electronic design workflows — build, simulate, validate, and ship clean, practical implementations.",
                 badge: "02",
+                registerKey: "electrothon",
+                ctaLabel: "ELECTROTHON",
               },
             ].map((t) => (
               <motion.div
                 key={t.title}
+                id={t.id}
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px 0px -20% 0px" }}
@@ -828,6 +885,21 @@ const CarbonX = () => {
                   </div>
 
                   <div className="mt-6 h-px w-full bg-border/70" />
+                  <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Registration is per-track. Choose your lane, then lock your spot.
+                    </p>
+                    <Button
+                      type="button"
+                      onClick={() =>
+                        openRegistration(t.registerKey as keyof typeof carbonX.registerUrls)
+                      }
+                      className="h-11 rounded-xl px-7 font-display tracking-widest shadow-[0_14px_42px_hsl(var(--primary)/0.18)]"
+                    >
+                      REGISTER {t.ctaLabel}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
                   <div className="truefocus-veil pointer-events-none absolute inset-0" aria-hidden="true" />
                 </GlassCard>
               </motion.div>
