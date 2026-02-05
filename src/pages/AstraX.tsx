@@ -26,7 +26,7 @@ const AstraX = () => {
                     <div className="mb-16 text-center">
                         <span className="font-mono text-sm text-primary tracking-[0.3em]">// TRACK 01</span>
                         <h1 className="font-display text-5xl md:text-6xl text-foreground mt-4">
-                            ASTRAX <div className="text-primary">(Software)</div>
+                            ASTRAX
                         </h1>
                         <p className="text-xl text-muted-foreground mt-6 max-w-2xl mx-auto text-center">
                             Integrate AI into software workflows to make them more efficient

@@ -26,7 +26,7 @@ const SyncConX = () => {
                     <div className="mb-16 text-center">
                         <span className="font-mono text-sm text-primary tracking-[0.3em]">// TRACK 03</span>
                         <h1 className="font-display text-5xl md:text-6xl text-foreground mt-4">
-                            SYNCCONX <div className="text-primary">(EEE & Instrumentation)</div>
+                            SYNCCONX
                         </h1>
                         <p className="text-xl text-muted-foreground mt-6 max-w-2xl mx-auto text-center">
                             Create data-driven electrical and instrumentation systems for smarter, more efficient workflows

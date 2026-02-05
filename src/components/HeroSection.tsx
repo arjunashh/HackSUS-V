@@ -102,13 +102,12 @@ const HeroSection = () => {
 
         {/* Stats preview */}
         <div
-          className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto animate-fade-in"
+          className="mt-16 grid grid-cols-2 gap-8 max-w-2xl mx-auto animate-fade-in"
           style={{ animationDelay: "1.2s" }}
         >
           {[
             { value: "42", label: "HOURS" },
-            { value: "500+", label: "HACKERS" },
-            { value: "₹5 Lakhs+", label: "IN PRIZES" },
+            { value: "500+", label: "HACKERS" }
           ].map((stat, i) => (
             <div key={i} className="text-center">
               <div className="font-display text-4xl md:text-5xl text-primary">{stat.value}</div>

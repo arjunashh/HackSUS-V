@@ -26,7 +26,7 @@ const UnmuteX = () => {
                     <div className="mb-16 text-center">
                         <span className="font-mono text-sm text-primary tracking-[0.3em]">// TRACK 06</span>
                         <h1 className="font-display text-5xl md:text-6xl text-foreground mt-4">
-                            UNMUTEX <div className="text-primary">(Music)</div>
+                            UNMUTEX
                         </h1>
                         <p className="text-xl text-muted-foreground mt-6 max-w-2xl mx-auto text-center">
                             Create innovative music solutions that streamline, augment, and elevate production workflows
