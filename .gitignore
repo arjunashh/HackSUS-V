@@ -17,13 +17,8 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
-
-# Local assistant runbooks / notes (keep out of git)
-docs/assistant-notes/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-AGENTS.md
