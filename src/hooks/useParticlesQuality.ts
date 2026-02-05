@@ -91,12 +91,12 @@ export function useParticleTuning(): ParticleTuning {
     // - Cap DPR (fill-rate is the real killer for gl points)
     if (tier === "high") {
       return {
-        maxFps: 60,
+        maxFps: 50,
         particleCount: 170,
         particleBaseSize: 180,
         speed: 0.14,
         particleHoverFactor: 1.8,
-        pixelRatio: 1.15,
+        pixelRatio: 1,
         particleSpread: 12,
         sizeRandomness: 0.62,
       };
