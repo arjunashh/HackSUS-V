@@ -68,7 +68,7 @@ const Navbar = () => {
               </>
             )}
             <a
-              href="https://makemypass.com/event/hacksus-edition-v"
+              href="https://konfhub.com/hacksus-edition-5"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-primary text-primary-foreground px-6 py-2 font-display tracking-wider text-sm hover:bg-primary/90 transition-colors rounded-xl"

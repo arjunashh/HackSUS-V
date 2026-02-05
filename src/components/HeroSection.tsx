@@ -96,7 +96,7 @@ const HeroSection = () => {
         {/* CTA Button */}
         <div className="animate-fade-in" style={{ animationDelay: "1s" }}>
           <Button variant="hero" size="xl">
-            <a href="https://makemypass.com/event/hacksus-edition-v" target="_blank" rel="noopener noreferrer" className="relative z-10">Register Now</a>
+            <a href="https://konfhub.com/hacksus-edition-5" target="_blank" rel="noopener noreferrer" className="relative z-10">Register Now</a>
           </Button>
         </div>
 

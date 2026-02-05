@@ -113,7 +113,7 @@ const AstraX = () => {
                                     </div>
                                 </div>
                                 <a
-                                    href="https://makemypass.com/event/hacksus-edition-v"
+                                    href="https://konfhub.com/hacksus-edition-5"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-block w-full mt-6 bg-primary text-primary-foreground px-6 py-3 font-display tracking-wider rounded-lg hover:bg-primary/90 transition-colors text-center"

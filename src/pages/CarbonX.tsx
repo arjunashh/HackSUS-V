@@ -101,7 +101,7 @@ const CarbonX = () => {
                                 <div className="space-y-4 text-sm text-muted-foreground">
                                     <div>
                                         <p className="text-primary font-semibold mb-1">Prize Pool</p>
-                                        <p>TBA</p>
+                                        <p>TBD</p>
                                     </div>
                                     <div>
                                         <p className="text-primary font-semibold mb-1">Team Size</p>
@@ -112,14 +112,9 @@ const CarbonX = () => {
                                         <p>42 hours</p>
                                     </div>
                                 </div>
-                                <a
-                                    href="https://makemypass.com/event/hacksus-edition-v"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-block w-full mt-6 bg-primary text-primary-foreground px-6 py-3 font-display tracking-wider rounded-lg hover:bg-primary/90 transition-colors text-center"
-                                >
+                                <button className="w-full mt-6 bg-primary text-primary-foreground px-6 py-3 font-display tracking-wider rounded-lg hover:bg-primary/90 transition-colors">
                                     Register Team
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>

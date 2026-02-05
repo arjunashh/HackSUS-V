@@ -101,6 +101,11 @@ const TracksSection = () => {
                 {/* Bottom accent line */}
                 <div className="mt-6 h-0.5 bg-border group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-transparent transition-all duration-500" />
               </div>
+
+              {/* Corner decoration */}
+              <div className="absolute top-4 right-4 font-mono text-xs text-muted-foreground opacity-50">
+                TRACK_{String(i + 1).padStart(2, "0")}
+              </div>
             </Link>
           ))}
         </div>
