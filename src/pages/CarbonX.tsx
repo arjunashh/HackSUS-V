@@ -500,7 +500,16 @@ const CarbonX = () => {
                   shineColor="hsl(var(--primary))"
                   yoyo={true}
                 />{" "}
-                <span className="landing-year">{carbonX.year}</span>
+                <DecryptedText
+                  text={carbonX.year}
+                  animateOn="view"
+                  speed={55}
+                  maxIterations={18}
+                  numbersOnly={true}
+                  parentClassName="landing-year"
+                  encryptedClassName="text-muted-foreground"
+                  aria-label={carbonX.year}
+                />
               </h1>
 
               <p className="landing-subtitle mx-auto text-muted-foreground">
